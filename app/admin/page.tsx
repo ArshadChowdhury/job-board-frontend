@@ -14,10 +14,12 @@ import {
   Users,
   Briefcase,
   Eye,
+  EyeClosed,
   Trash2,
 } from "lucide-react";
 import axiosInstance from "@/lib/axios";
 import AdminGuard from "@/components/AdminGuard";
+import toast from "react-hot-toast";
 
 // Validation Schema
 const jobSchema = z.object({
@@ -36,6 +38,7 @@ interface Job {
   company: string;
   location: string;
   description: string;
+  hidden: boolean;
   createdAt: string;
 }
 
@@ -51,7 +54,7 @@ interface Application {
 
 // API functions
 const fetchJobs = async (): Promise<Job[]> => {
-  const { data } = await axiosInstance.get("/jobs");
+  const { data } = await axiosInstance.get("/jobs/admin");
   return data;
 };
 
@@ -72,7 +75,11 @@ export default function AdminDashboard() {
   const [selectedJob, setSelectedJob] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  const { data: jobs, isLoading: jobsLoading } = useQuery({
+  const {
+    data: jobs,
+    isLoading: jobsLoading,
+    refetch: refetchAdminJobs,
+  } = useQuery({
     queryKey: ["admin-jobs"],
     queryFn: fetchJobs,
   });
@@ -102,6 +109,7 @@ export default function AdminDashboard() {
 
   const onSubmit = (data: JobForm) => {
     createJobMutation.mutate(data);
+    toast.success("Successfully created the job");
   };
 
   const filteredApplications = selectedJob
@@ -281,9 +289,108 @@ export default function AdminDashboard() {
                             </div>
                             <div className="flex gap-2 ml-4">
                               <button className="p-2 text-gray-400 hover:text-gray-600">
-                                <Eye className="w-4 h-4" />
+                                {job.hidden ? (
+                                  <EyeClosed
+                                    onClick={async () => {
+                                      const confirmed = window.confirm(
+                                        "Are you sure you want to unhide this job ?"
+                                      );
+                                      if (!confirmed) return;
+
+                                      try {
+                                        const response =
+                                          await axiosInstance.patch(
+                                            `/jobs/${job.id}/unhide`
+                                          );
+
+                                        if (response) {
+                                          toast.success(
+                                            "Successfully unhidden the job"
+                                          );
+                                          refetchAdminJobs();
+                                        }
+
+                                        // optionally open a modal, redirect, or update UI
+                                      } catch (error) {
+                                        console.error(
+                                          "Failed to fetch application",
+                                          error
+                                        );
+                                        alert(
+                                          "Something went wrong while fetching the application."
+                                        );
+                                      }
+                                    }}
+                                    className="w-4 h-4"
+                                  />
+                                ) : (
+                                  <Eye
+                                    onClick={async () => {
+                                      const confirmed = window.confirm(
+                                        "Are you sure you want to hide this job ?"
+                                      );
+                                      if (!confirmed) return;
+
+                                      try {
+                                        const response =
+                                          await axiosInstance.patch(
+                                            `/jobs/${job.id}/hide`
+                                          );
+
+                                        if (response) {
+                                          toast.success(
+                                            "Successfully hidden the job"
+                                          );
+                                          refetchAdminJobs();
+                                        }
+
+                                        // optionally open a modal, redirect, or update UI
+                                      } catch (error) {
+                                        console.error(
+                                          "Failed to fetch application",
+                                          error
+                                        );
+                                        alert(
+                                          "Something went wrong while fetching the application."
+                                        );
+                                      }
+                                    }}
+                                    className="w-4 h-4"
+                                  />
+                                )}
                               </button>
-                              <button className="p-2 text-gray-400 hover:text-red-600">
+                              <button
+                                onClick={async () => {
+                                  const confirmed = window.confirm(
+                                    "Are you sure you want to delete this job ?"
+                                  );
+                                  if (!confirmed) return;
+
+                                  try {
+                                    const response = await axiosInstance.delete(
+                                      `/jobs/${job.id}`
+                                    );
+
+                                    if (response) {
+                                      toast.success(
+                                        "Successfully deleted the job"
+                                      );
+                                      refetchAdminJobs();
+                                    }
+
+                                    // optionally open a modal, redirect, or update UI
+                                  } catch (error) {
+                                    console.error(
+                                      "Failed to fetch application",
+                                      error
+                                    );
+                                    alert(
+                                      "Something went wrong while fetching the application."
+                                    );
+                                  }
+                                }}
+                                className="p-2 text-gray-400 hover:text-red-600"
+                              >
                                 <Trash2 className="w-4 h-4" />
                               </button>
                             </div>

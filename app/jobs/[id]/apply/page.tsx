@@ -9,6 +9,7 @@ import { ArrowLeft, CheckCircle, User, Mail, FileText } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import axiosInstance from "@/lib/axios";
+import toast from "react-hot-toast";
 
 // Validation Schema
 const applicationSchema = z.object({
@@ -88,6 +89,7 @@ export default function JobApplicationPage() {
 
   const onSubmit = (data: ApplicationForm) => {
     mutation.mutate({ ...data, jobId });
+    toast.success("Successfully applied to the job");
   };
 
   if (jobLoading) {
