@@ -32,5 +32,5 @@ jobs:
       - name: Run Lint
         run: pnpm run lint
 
-      - name: Run Tests
-        run: pnpm run test
+      # - name: Run Tests
+      #   run: pnpm run test # Haven't setup jest so no need to run jest
