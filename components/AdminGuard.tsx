@@ -18,7 +18,7 @@ export default function AdminGuard({
     } else {
       setIsChecking(false);
     }
-  }, []);
+  }, [router]);
 
   if (isChecking) {
     return <div className="text-center mt-10">Checking auth...</div>;

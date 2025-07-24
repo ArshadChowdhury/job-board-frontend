@@ -120,7 +120,7 @@ export default function JobApplicationPage() {
               Job not found
             </h2>
             <p className="text-gray-600">
-              The job you're trying to apply for doesn't exist.
+              The job you&apos;re trying to apply for doesn&apos;t exist.
             </p>
           </div>
         </div>
@@ -142,8 +142,8 @@ export default function JobApplicationPage() {
               </h1>
               <p className="text-gray-600 mb-6">
                 Thank you for applying to <strong>{job.title}</strong> at{" "}
-                <strong>{job.company}</strong>. We'll review your application
-                and get back to you soon.
+                <strong>{job.company}</strong>. We&apos;ll review your
+                application and get back to you soon.
               </p>
               <div className="space-y-3">
                 <Link
