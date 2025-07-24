@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -20,9 +21,9 @@ import AdminGuard from "@/components/AdminGuard";
 
 // Validation Schema
 const jobSchema = z.object({
-  title: z.string().min(3, "Title must be at least 3 characters"),
-  company: z.string().min(2, "Company name must be at least 2 characters"),
-  location: z.string().min(2, "Location must be at least 2 characters"),
+  title: z.string().min(1, "Title is required"),
+  company: z.string().min(1, "Company name is required"),
+  location: z.string().min(1, "Location is required"),
   description: z.string().min(50, "Description must be at least 50 characters"),
 });
 
@@ -76,12 +77,9 @@ export default function AdminDashboard() {
     queryFn: fetchJobs,
   });
 
-  console.log(jobs);
-
   const { data: applications, isLoading: applicationsLoading } = useQuery({
     queryKey: ["applications"],
     queryFn: fetchApplications,
-    enabled: activeTab === "applications",
   });
 
   const {
@@ -115,23 +113,24 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Admin Dashboard
-            </h1>
-            <p className="text-gray-600">
-              Manage job postings and applications
-            </p>
+          <div className="flex justify-between">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Admin Dashboard
+              </h1>
+              <p className="text-gray-600">
+                Manage job postings and applications
+              </p>
+            </div>
+            <Link className="text-gray-800 underline" href={"/admin/logout"}>
+              Log Out
+            </Link>
           </div>
-
           {/* Stats Cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="bg-white rounded-lg p-6 shadow-sm border">
               <div className="flex items-center">
-                <div
-                  className="p-3 rounded-full"
-                  style={{ backgroundColor: "#d10000" }}
-                >
+                <div className="p-3 rounded-full bg-[#d10000]">
                   <Briefcase className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-4">
@@ -186,7 +185,7 @@ export default function AdminDashboard() {
               <nav className="flex space-x-8 px-6">
                 <button
                   onClick={() => setActiveTab("jobs")}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  className={`cursor-pointer py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === "jobs"
                       ? "border-red-500 text-red-600"
                       : "border-transparent text-gray-500 hover:text-gray-700"
@@ -201,7 +200,7 @@ export default function AdminDashboard() {
                 </button>
                 <button
                   onClick={() => setActiveTab("applications")}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  className={`cursor-pointer py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === "applications"
                       ? "border-red-500 text-red-600"
                       : "border-transparent text-gray-500 hover:text-gray-700"
@@ -216,7 +215,7 @@ export default function AdminDashboard() {
                 </button>
                 <button
                   onClick={() => setActiveTab("create")}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
+                  className={`cursor-pointer py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
                     activeTab === "create"
                       ? "border-red-500 text-red-600"
                       : "border-transparent text-gray-500 hover:text-gray-700"
@@ -317,12 +316,15 @@ export default function AdminDashboard() {
                     <select
                       value={selectedJob || ""}
                       onChange={(e) => setSelectedJob(e.target.value || null)}
-                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
-                      // style={{ focusRingColor: '#d10000' }}
+                      className="text-gray-900 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
                     >
                       <option value="">All Jobs</option>
                       {jobs?.map((job) => (
-                        <option key={job.id} value={job.id}>
+                        <option
+                          className="text-gray-900"
+                          key={job.id}
+                          value={job.id}
+                        >
                           {job.title} - {job.company}
                         </option>
                       ))}
@@ -430,12 +432,6 @@ export default function AdminDashboard() {
                         type="text"
                         placeholder="e.g. Senior Software Engineer"
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = "#d10000")
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = "rgb(209, 213, 219)")
-                        }
                       />
                       {errors.title && (
                         <p className="text-red-600 text-sm mt-1">
@@ -453,12 +449,6 @@ export default function AdminDashboard() {
                         type="text"
                         placeholder="e.g. TechCorp Inc."
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = "#d10000")
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = "rgb(209, 213, 219)")
-                        }
                       />
                       {errors.company && (
                         <p className="text-red-600 text-sm mt-1">
@@ -476,12 +466,6 @@ export default function AdminDashboard() {
                         type="text"
                         placeholder="e.g. San Francisco, CA / Remote"
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = "#d10000")
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = "rgb(209, 213, 219)")
-                        }
                       />
                       {errors.location && (
                         <p className="text-red-600 text-sm mt-1">
@@ -499,12 +483,6 @@ export default function AdminDashboard() {
                         rows={8}
                         placeholder="Describe the role, responsibilities, requirements..."
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 resize-none"
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = "#d10000")
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = "rgb(209, 213, 219)")
-                        }
                       />
                       {errors.description && (
                         <p className="text-red-600 text-sm mt-1">
@@ -524,7 +502,7 @@ export default function AdminDashboard() {
                     <button
                       type="submit"
                       disabled={createJobMutation.isPending}
-                      className="w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="cursor-pointer w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
                       style={{
                         background: createJobMutation.isPending
                           ? "#666"

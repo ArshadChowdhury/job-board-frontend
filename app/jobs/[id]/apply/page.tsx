@@ -8,12 +8,25 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ArrowLeft, CheckCircle, User, Mail, FileText } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import axios from "axios";
+import axiosInstance from "@/lib/axios";
 
 // Validation Schema
 const applicationSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
+  name: z.string().min(1, "Name is required"),
+  email: z
+    .string()
+    .refine(
+      (val) => val.length > 0 || z.string().email().safeParse(val).success,
+      {
+        message: "Email address is required",
+      }
+    )
+    .refine(
+      (val) => val.length === 0 || z.string().email().safeParse(val).success,
+      {
+        message: "Invalid Email format",
+      }
+    ),
   cvLink: z
     .string()
     .url("Please enter a valid URL")
@@ -36,17 +49,12 @@ interface Job {
 
 // API functions
 const fetchJob = async (id: string): Promise<Job> => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/jobs/${id}`
-  );
+  const { data } = await axiosInstance.get(`/jobs/${id}`);
   return data;
 };
 
 const submitApplication = async (data: ApplicationForm & { jobId: string }) => {
-  const { data: response } = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/applications`,
-    data
-  );
+  const { data: response } = await axiosInstance.post("/applications", data);
   return response;
 };
 
@@ -146,8 +154,7 @@ export default function JobApplicationPage() {
                 </Link>
                 <Link
                   href="/jobs"
-                  className="block w-full px-6 py-3 text-white font-medium rounded-lg transition-colors hover:opacity-90"
-                  style={{ backgroundColor: "#d10000" }}
+                  className="block w-full px-6 py-3 text-white font-medium rounded-lg transition-colors hover:opacity-90 bg-[#d10000]"
                 >
                   Browse More Jobs
                 </Link>
@@ -204,13 +211,6 @@ export default function JobApplicationPage() {
                   type="text"
                   placeholder="Enter your full name"
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                  // style={{
-                  //   focusRingColor: '#d10000',
-                  // }}
-                  onFocus={(e) => (e.target.style.borderColor = "#d10000")}
-                  onBlur={(e) =>
-                    (e.target.style.borderColor = "rgb(209, 213, 219)")
-                  }
                 />
               </div>
               {errors.name && (
@@ -233,10 +233,6 @@ export default function JobApplicationPage() {
                   type="email"
                   placeholder="Enter your email address"
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                  onFocus={(e) => (e.target.style.borderColor = "#d10000")}
-                  onBlur={(e) =>
-                    (e.target.style.borderColor = "rgb(209, 213, 219)")
-                  }
                 />
               </div>
               {errors.email && (
@@ -259,10 +255,6 @@ export default function JobApplicationPage() {
                   type="url"
                   placeholder="https://drive.google.com/your-cv-link"
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                  onFocus={(e) => (e.target.style.borderColor = "#d10000")}
-                  onBlur={(e) =>
-                    (e.target.style.borderColor = "rgb(209, 213, 219)")
-                  }
                 />
               </div>
               {errors.cvLink && (
@@ -286,10 +278,6 @@ export default function JobApplicationPage() {
                 rows={6}
                 placeholder="Tell us why you're interested in this position and what makes you a great fit..."
                 className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 resize-none"
-                onFocus={(e) => (e.target.style.borderColor = "#d10000")}
-                onBlur={(e) =>
-                  (e.target.style.borderColor = "rgb(209, 213, 219)")
-                }
               />
               {errors.coverLetter && (
                 <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
@@ -312,7 +300,7 @@ export default function JobApplicationPage() {
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
+              className="cursor-pointer w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
               style={{
                 background: mutation.isPending ? "#666" : "#d10000",
               }}

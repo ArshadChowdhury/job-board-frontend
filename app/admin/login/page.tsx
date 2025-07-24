@@ -7,6 +7,7 @@ import { z } from "zod";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const adminLoginSchema = z.object({
   username: z.string().refine((val) => val.length > 0, {
@@ -17,9 +18,17 @@ const adminLoginSchema = z.object({
   }),
 });
 
+type AdminLoginForm = z.infer<typeof adminLoginSchema>;
+
 export default function AdminLoginPage() {
   const router = useRouter();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AdminLoginForm>({
+    resolver: zodResolver(adminLoginSchema),
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -107,13 +116,16 @@ export default function AdminLoginPage() {
                 <input
                   {...register("username")}
                   type="text"
-                  placeholder="admin@company.com"
+                  placeholder="Enter your username"
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                  onFocus={(e) => (e.target.style.borderColor = "#d10000")}
-                  onBlur={(e) =>
-                    (e.target.style.borderColor = "rgb(209, 213, 219)")
-                  }
                 />
+
+                {errors.username && (
+                  <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                    <span className="w-1 h-1 bg-red-600 rounded-full"></span>
+                    {errors.username.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -129,15 +141,18 @@ export default function AdminLoginPage() {
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   className="w-full pl-10 pr-12 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                  onFocus={(e) => (e.target.style.borderColor = "#d10000")}
-                  onBlur={(e) =>
-                    (e.target.style.borderColor = "rgb(209, 213, 219)")
-                  }
                 />
+
+                {errors.password && (
+                  <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                    <span className="w-1 h-1 bg-red-600 rounded-full"></span>
+                    {errors.password.message}
+                  </p>
+                )}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="cursor-pointer absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff className="w-5 h-5" />

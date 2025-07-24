@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { MapPin, Building2, Clock, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import axios from "axios";
+import axiosInstance from "@/lib/axios";
 
 // Types
 interface Job {
@@ -18,9 +18,7 @@ interface Job {
 
 // API function
 const fetchJob = async (id: string): Promise<Job> => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/jobs/${id}`
-  );
+  const { data } = await axiosInstance.get(`/jobs/${id}`);
   return data;
 };
 

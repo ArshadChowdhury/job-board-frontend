@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { useQuery } from '@tanstack/react-query';
-import { MapPin, Building2, Clock, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
-import axiosInstance from '@/lib/axios';
-
+import { useQuery } from "@tanstack/react-query";
+import { MapPin, Building2, Clock, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import axiosInstance from "@/lib/axios";
 
 // Types
 interface Job {
@@ -20,15 +19,18 @@ interface Job {
 const fetchJobs = async (): Promise<Job[]> => {
   const { data } = await axiosInstance.get("/jobs");
 
-console.log(data);
-
+  console.log(data);
 
   return data;
 };
 
 export default function PublicJobsPage() {
-  const { data: jobs, isLoading, error } = useQuery({
-    queryKey: ['jobs'],
+  const {
+    data: jobs,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["jobs"],
     queryFn: fetchJobs,
   });
 
@@ -40,7 +42,10 @@ export default function PublicJobsPage() {
             <div className="h-8 bg-gray-300 rounded w-1/4 mb-6"></div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-white rounded-lg p-6 shadow-sm border">
+                <div
+                  key={i}
+                  className="bg-white rounded-lg p-6 shadow-sm border"
+                >
                   <div className="h-6 bg-gray-300 rounded mb-3"></div>
                   <div className="h-4 bg-gray-300 rounded mb-2 w-3/4"></div>
                   <div className="h-4 bg-gray-300 rounded mb-4 w-1/2"></div>
@@ -58,8 +63,12 @@ export default function PublicJobsPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Something went wrong</h2>
-          <p className="text-gray-600">Unable to load jobs. Please try again later.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Something went wrong
+          </h2>
+          <p className="text-gray-600">
+            Unable to load jobs. Please try again later.
+          </p>
         </div>
       </div>
     );
@@ -70,7 +79,9 @@ export default function PublicJobsPage() {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Find Your Dream Job</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Find Your Dream Job
+          </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Discover amazing opportunities from top companies around the world
           </p>
@@ -78,11 +89,11 @@ export default function PublicJobsPage() {
 
         {/* Stats */}
         <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-lg px-6 py-3 shadow-sm border">
-            <span className="text-2xl font-bold" style={{ color: '#d10000' }}>
+          <div className="bg-white rounded-lg px-6 py-3 shadow-sm border flex items-center">
+            <span className="text-2xl font-bold text-[#d10000]">
               {jobs?.length || 0}
             </span>
-            <span className="text-gray-600 ml-2">Active Jobs</span>
+            <span className="text-gray-600 ml-3 pt-1">Active Jobs</span>
           </div>
         </div>
 
@@ -123,13 +134,12 @@ export default function PublicJobsPage() {
                 </div>
 
                 <p className="text-gray-600 text-sm mb-6 line-clamp-3">
-                  {job.description.substring(0, 120)}...
+                  {job.description.substring(0, 60)}...
                 </p>
 
                 <Link
                   href={`/jobs/${job.id}`}
-                  className="inline-flex items-center justify-center w-full px-4 py-2 text-white font-medium rounded-lg transition-colors duration-200 hover:opacity-90"
-                  style={{ backgroundColor: '#d10000' }}
+                  className="inline-flex items-center justify-center w-full px-4 py-2 text-white font-medium rounded-lg transition-colors duration-200 hover:opacity-90 bg-[#d10000]"
                 >
                   View Details
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -142,8 +152,12 @@ export default function PublicJobsPage() {
             <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
               <Building2 className="w-12 h-12 text-gray-400" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No jobs available</h3>
-            <p className="text-gray-600">Check back later for new opportunities!</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              No jobs available
+            </h3>
+            <p className="text-gray-600">
+              Check back later for new opportunities!
+            </p>
           </div>
         )}
       </div>
