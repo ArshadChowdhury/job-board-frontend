@@ -1,21 +1,27 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { ArrowLeft, CheckCircle, User, Mail, FileText } from 'lucide-react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import axios from 'axios';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ArrowLeft, CheckCircle, User, Mail, FileText } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import axios from "axios";
 
 // Validation Schema
 const applicationSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  cvLink: z.string().url('Please enter a valid URL').optional().or(z.literal('')),
-  coverLetter: z.string().min(50, 'Cover letter must be at least 50 characters'),
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  cvLink: z
+    .string()
+    .url("Please enter a valid URL")
+    .optional()
+    .or(z.literal("")),
+  coverLetter: z
+    .string()
+    .min(50, "Cover letter must be at least 50 characters"),
 });
 
 type ApplicationForm = z.infer<typeof applicationSchema>;
@@ -30,12 +36,17 @@ interface Job {
 
 // API functions
 const fetchJob = async (id: string): Promise<Job> => {
-  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/jobs/${id}`);
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/jobs/${id}`
+  );
   return data;
 };
 
 const submitApplication = async (data: ApplicationForm & { jobId: string }) => {
-  const { data: response } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/applications`, data);
+  const { data: response } = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_URL}/applications`,
+    data
+  );
   return response;
 };
 
@@ -45,7 +56,7 @@ export default function JobApplicationPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const { data: job, isLoading: jobLoading } = useQuery({
-    queryKey: ['job', jobId],
+    queryKey: ["job", jobId],
     queryFn: () => fetchJob(jobId),
     enabled: !!jobId,
   });
@@ -97,8 +108,12 @@ export default function JobApplicationPage() {
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Job not found</h2>
-            <p className="text-gray-600">The job you're trying to apply for doesn't exist.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Job not found
+            </h2>
+            <p className="text-gray-600">
+              The job you're trying to apply for doesn't exist.
+            </p>
           </div>
         </div>
       </div>
@@ -114,10 +129,13 @@ export default function JobApplicationPage() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Application Submitted!</h1>
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                Application Submitted!
+              </h1>
               <p className="text-gray-600 mb-6">
-                Thank you for applying to <strong>{job.title}</strong> at <strong>{job.company}</strong>. 
-                We'll review your application and get back to you soon.
+                Thank you for applying to <strong>{job.title}</strong> at{" "}
+                <strong>{job.company}</strong>. We'll review your application
+                and get back to you soon.
               </p>
               <div className="space-y-3">
                 <Link
@@ -127,9 +145,9 @@ export default function JobApplicationPage() {
                   Back to Job Details
                 </Link>
                 <Link
-                  href="/"
+                  href="/jobs"
                   className="block w-full px-6 py-3 text-white font-medium rounded-lg transition-colors hover:opacity-90"
-                  style={{ backgroundColor: '#d10000' }}
+                  style={{ backgroundColor: "#d10000" }}
                 >
                   Browse More Jobs
                 </Link>
@@ -156,15 +174,23 @@ export default function JobApplicationPage() {
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <div className="bg-white rounded-lg p-6 shadow-sm border mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Apply for {job.title}</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              Apply for {job.title}
+            </h1>
             <p className="text-gray-600">
-              <span className="font-medium">{job.company}</span> • {job.location}
+              <span className="font-medium">{job.company}</span> •{" "}
+              {job.location}
             </p>
           </div>
 
           {/* Application Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-lg p-8 shadow-sm border">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Information</h2>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="bg-white rounded-lg p-8 shadow-sm border"
+          >
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+              Your Information
+            </h2>
 
             {/* Name Field */}
             <div className="mb-6">
@@ -174,15 +200,17 @@ export default function JobApplicationPage() {
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  {...register('name')}
+                  {...register("name")}
                   type="text"
                   placeholder="Enter your full name"
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                   // style={{
                   //   focusRingColor: '#d10000',
                   // }}
-                  onFocus={(e) => (e.target.style.borderColor = '#d10000')}
-                  onBlur={(e) => (e.target.style.borderColor = 'rgb(209, 213, 219)')}
+                  onFocus={(e) => (e.target.style.borderColor = "#d10000")}
+                  onBlur={(e) =>
+                    (e.target.style.borderColor = "rgb(209, 213, 219)")
+                  }
                 />
               </div>
               {errors.name && (
@@ -201,12 +229,14 @@ export default function JobApplicationPage() {
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  {...register('email')}
+                  {...register("email")}
                   type="email"
                   placeholder="Enter your email address"
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                  onFocus={(e) => (e.target.style.borderColor = '#d10000')}
-                  onBlur={(e) => (e.target.style.borderColor = 'rgb(209, 213, 219)')}
+                  onFocus={(e) => (e.target.style.borderColor = "#d10000")}
+                  onBlur={(e) =>
+                    (e.target.style.borderColor = "rgb(209, 213, 219)")
+                  }
                 />
               </div>
               {errors.email && (
@@ -225,12 +255,14 @@ export default function JobApplicationPage() {
               <div className="relative">
                 <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  {...register('cvLink')}
+                  {...register("cvLink")}
                   type="url"
                   placeholder="https://drive.google.com/your-cv-link"
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                  onFocus={(e) => (e.target.style.borderColor = '#d10000')}
-                  onBlur={(e) => (e.target.style.borderColor = 'rgb(209, 213, 219)')}
+                  onFocus={(e) => (e.target.style.borderColor = "#d10000")}
+                  onBlur={(e) =>
+                    (e.target.style.borderColor = "rgb(209, 213, 219)")
+                  }
                 />
               </div>
               {errors.cvLink && (
@@ -250,12 +282,14 @@ export default function JobApplicationPage() {
                 Cover Letter *
               </label>
               <textarea
-                {...register('coverLetter')}
+                {...register("coverLetter")}
                 rows={6}
                 placeholder="Tell us why you're interested in this position and what makes you a great fit..."
                 className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 resize-none"
-                onFocus={(e) => (e.target.style.borderColor = '#d10000')}
-                onBlur={(e) => (e.target.style.borderColor = 'rgb(209, 213, 219)')}
+                onFocus={(e) => (e.target.style.borderColor = "#d10000")}
+                onBlur={(e) =>
+                  (e.target.style.borderColor = "rgb(209, 213, 219)")
+                }
               />
               {errors.coverLetter && (
                 <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
@@ -280,7 +314,7 @@ export default function JobApplicationPage() {
               disabled={mutation.isPending}
               className="w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
               style={{
-                background: mutation.isPending ? '#666' : '#d10000',
+                background: mutation.isPending ? "#666" : "#d10000",
               }}
             >
               {mutation.isPending ? (
@@ -289,7 +323,7 @@ export default function JobApplicationPage() {
                   Submitting Application...
                 </>
               ) : (
-                'Submit Application'
+                "Submit Application"
               )}
             </button>
           </form>
