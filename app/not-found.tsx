@@ -18,8 +18,8 @@ export default function Custom404() {
             Oops! Page Not Found
           </h2>
           <p className="text-slate-600 text-lg leading-relaxed">
-            The page you're looking for seems to have wandeslate off. Don't
-            worry, it happens to the best of us!
+            The page you&apos;re looking for seems to have wandeslate off.
+            Don&apos;t worry, it happens to the best of us!
           </p>
         </div>
 
