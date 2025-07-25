@@ -4,8 +4,8 @@ This is the frontend of the JobHub application built with **Next.js** and **Tail
 
 ## Preview of the frontend app - 
 
+<img width="1904" height="1079" alt="image" src="https://github.com/user-attachments/assets/223df1b7-2f16-423c-92b3-8f26c1d01623" />
 
-![Uploading image.png…]()
 
 ---
 
