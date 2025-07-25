@@ -59,7 +59,7 @@ const fetchJobs = async (): Promise<Job[]> => {
 };
 
 const createJob = async (jobData: JobForm) => {
-  const { data } = await axiosInstance.post("/jobs", jobData);
+  const { data } = await axiosInstance.post("/jobs/admin/create", jobData);
   return data;
 };
 
@@ -108,12 +108,12 @@ export default function AdminDashboard() {
       queryClient.invalidateQueries({ queryKey: ["admin-jobs"] });
       reset();
       setActiveTab("jobs");
+      toast.success("Successfully created the job");
     },
   });
 
   const onSubmit = (data: JobForm) => {
     createJobMutation.mutate(data);
-    toast.success("Successfully created the job");
   };
 
   const filteredApplications = selectedJob
@@ -125,7 +125,7 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
                 Admin Dashboard
@@ -282,7 +282,7 @@ export default function AdminDashboard() {
                               <h3 className="text-lg font-semibold text-gray-900">
                                 {job.title}
                               </h3>
-                              <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
+                              <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2 lg:gap-4 mt-2 text-sm text-gray-600">
                                 <div className="flex items-center gap-1">
                                   <Building2 className="w-4 h-4" />
                                   {job.company}
@@ -313,7 +313,7 @@ export default function AdminDashboard() {
                                       try {
                                         const response =
                                           await axiosInstance.patch(
-                                            `/jobs/${job.id}/unhide`
+                                            `/jobs/admin/${job.id}/unhide`
                                           );
 
                                         if (response) {
@@ -347,7 +347,7 @@ export default function AdminDashboard() {
                                       try {
                                         const response =
                                           await axiosInstance.patch(
-                                            `/jobs/${job.id}/hide`
+                                            `/jobs/admin/${job.id}/hide`
                                           );
 
                                         if (response) {
@@ -381,7 +381,7 @@ export default function AdminDashboard() {
 
                                   try {
                                     const response = await axiosInstance.delete(
-                                      `/jobs/${job.id}`
+                                      `/jobs/admin/${job.id}`
                                     );
 
                                     if (response) {
@@ -513,7 +513,7 @@ export default function AdminDashboard() {
                               <h4 className="font-medium text-gray-900 mb-2">
                                 Cover Letter:
                               </h4>
-                              <p className="text-gray-700 text-sm whitespace-pre-wrap">
+                              <p className="text-gray-700 text-sm whitespace-pre-wrap truncate">
                                 {application.coverLetter}
                               </p>
                             </div>
@@ -620,40 +620,16 @@ export default function AdminDashboard() {
                       </div>
                     )}
 
-                    {/* <button
-                      type="submit"
-                      disabled={createJobMutation.isPending}
-                      className="cursor-pointer w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
-                      style={{
-                        background: createJobMutation.isPending
-                          ? "#666"
-                          : "#oklch(44.6% 0.043 257.281)",
-                      }}
-                    >
-                      {createJobMutation.isPending ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                          Creating Job...
-                        </>
-                      ) : (
-                        <>
-                          <Plus className="w-5 h-5" />
-                          Create Job Posting
-                        </>
-                      )}
-                    </button> */}
-
                     <button
                       type="submit"
                       disabled={createJobMutation.isPending}
                       className={`cursor-pointer w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50  ${
                         createJobMutation.isPending
-                          ? "bg-[#666]" // Gray when pending
-                          : "bg-[oklch(44.6%_0.043_257.281)]" // Your specific OKLCH color when not pending
+                          ? "bg-[#666]"
+                          : "bg-[oklch(44.6%_0.043_257.281)]"
                       }
   `}
                     >
-                      {/* Button content goes here, e.g., "Submit" or a loading spinner */}
                       {createJobMutation.isPending ? "Processing..." : "Submit"}
                     </button>
                   </form>

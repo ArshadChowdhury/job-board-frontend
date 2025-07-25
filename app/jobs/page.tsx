@@ -84,15 +84,24 @@ export default function PublicJobsPage() {
             Discover amazing opportunities from top companies around the world
           </p>
         </div>
-
         {/* Stats */}
-        <div className="flex justify-center mb-8">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
+          <Link className="text-slate-800 hover:underline" href={"/"}>
+            Go Back To Home
+          </Link>
+
           <div className="bg-white rounded-lg px-6 py-3 shadow-sm border flex items-center">
             <span className="text-2xl font-bold text-slate-600">
               {jobs?.length || 0}
             </span>
             <span className="text-gray-600 ml-3 pt-1">Active Jobs</span>
           </div>
+          <Link
+            className="text-slate-800 hover:underline"
+            href={"/admin/login"}
+          >
+            Login as an Admin
+          </Link>
         </div>
 
         {/* Jobs Grid */}

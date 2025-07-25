@@ -18,7 +18,7 @@ interface Job {
 
 // API function
 const fetchJob = async (id: string): Promise<Job> => {
-  const { data } = await axiosInstance.get(`/jobs/${id}`);
+  const { data } = await axiosInstance.get(`/jobs/public/${id}`);
   return data;
 };
 
