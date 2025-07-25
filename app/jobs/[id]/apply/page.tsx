@@ -139,9 +139,9 @@ export default function JobApplicationPage() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
                 Application Submitted!
-              </h1>
+              </h2>
               <p className="text-gray-600 mb-6">
                 Thank you for applying to <strong>{job.title}</strong> at{" "}
                 <strong>{job.company}</strong>. We&apos;ll review your
@@ -169,7 +169,7 @@ export default function JobApplicationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <Link
@@ -180,17 +180,17 @@ export default function JobApplicationPage() {
           Back to Job Details
         </Link>
 
-        <div className="max-w-2xl mx-auto">
+        <section className="max-w-2xl mx-auto">
           {/* Header */}
-          <div className="bg-white rounded-lg p-6 shadow-sm border mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <header className="bg-white rounded-lg p-6 shadow-sm border mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
               Apply for {job.title}
-            </h1>
+            </h2>
             <p className="text-gray-600">
               <span className="font-medium">{job.company}</span> •{" "}
               {job.location}
             </p>
-          </div>
+          </header>
 
           {/* Application Form */}
           <form
@@ -294,28 +294,6 @@ export default function JobApplicationPage() {
               </div>
             )}
 
-            {/* Submit Button */}
-            {/* <button
-              type="submit"
-              disabled={mutation.isPending}
-              className="cursor-pointer w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
-              style={{
-                background: mutation.isPending
-                  ? "#666"
-                  : "#oklch(44.6% 0.043 257.281)",
-              }}
-            >
-              {mutation.isPending ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  Submitting Application...
-                </>
-              ) : (
-                "Submit Application"
-              )}
-            </button>
-            */}
-
             <button
               type="submit"
               disabled={mutation.isPending}
@@ -350,8 +328,8 @@ export default function JobApplicationPage() {
               {mutation.isPending ? "Processing..." : "Submit"}
             </button>
           </form>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

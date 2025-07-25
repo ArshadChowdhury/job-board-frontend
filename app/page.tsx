@@ -14,15 +14,15 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-300 to-slate-200">
+    <main className="min-h-screen bg-gradient-to-br from-slate-300 to-slate-200">
       {/* Hero Section */}
       <NavBar />
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+          <h2 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
             Find Your Dream Job
             <span className="block text-blue-900">Today</span>
-          </h1>
+          </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Connect with top companies and discover opportunities that match
             your skills and ambitions
@@ -237,6 +237,6 @@ export default function HomePage() {
       </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }

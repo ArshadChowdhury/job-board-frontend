@@ -127,9 +127,9 @@ export default function AdminDashboard() {
           {/* Header */}
           <div className="flex items-center justify-between">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">
                 Admin Dashboard
-              </h1>
+              </h2>
               <p className="text-gray-600">
                 Manage job postings and applications
               </p>

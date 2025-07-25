@@ -87,7 +87,7 @@ export default function JobDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <Link
@@ -98,15 +98,15 @@ export default function JobDetailsPage() {
           Back to Jobs
         </Link>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <section className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg p-8 shadow-sm border">
               {/* Job Header */}
               <div className="mb-6">
-                <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
                   {job.title}
-                </h1>
+                </h2>
 
                 <div className="flex flex-wrap gap-4 text-gray-600">
                   <div className="flex items-center">
@@ -183,8 +183,8 @@ export default function JobDetailsPage() {
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

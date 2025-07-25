@@ -2,13 +2,13 @@ import Link from "next/link";
 
 export default function Custom404() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center px-4">
-      <div className="text-center max-w-lg mx-auto">
+    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center px-4">
+      <section className="text-center max-w-lg mx-auto">
         {/* Large 404 Text */}
         <div className="mb-8">
-          <h1 className="text-7xl font-bold text-slate-600 mb-4 animate-pulse">
+          <h2 className="text-7xl font-bold text-slate-600 mb-4 animate-pulse">
             404
-          </h1>
+          </h2>
           <div className="w-24 h-1 bg-slate-500 mx-auto mb-6"></div>
         </div>
 
@@ -55,7 +55,7 @@ export default function Custom404() {
         <p className="mt-6 text-slate-500 text-sm">
           Lost? Try checking the URL or use the navigation menu.
         </p>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

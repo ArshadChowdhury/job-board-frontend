@@ -73,19 +73,19 @@ export default function PublicJobsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <header className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Find Your Dream Job
-          </h1>
+          </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Discover amazing opportunities from top companies around the world
           </p>
-        </div>
+        </header>
         {/* Stats */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
+        <section className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
           <Link className="text-slate-800 hover:underline" href={"/"}>
             Go Back To Home
           </Link>
@@ -102,11 +102,11 @@ export default function PublicJobsPage() {
           >
             Login as an Admin
           </Link>
-        </div>
+        </section>
 
         {/* Jobs Grid */}
         {jobs && jobs.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {jobs.map((job) => (
               <div
                 key={job.id}
@@ -153,9 +153,9 @@ export default function PublicJobsPage() {
                 </Link>
               </div>
             ))}
-          </div>
+          </section>
         ) : (
-          <div className="text-center py-12">
+          <section className="text-center py-12">
             <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
               <Building2 className="w-12 h-12 text-gray-400" />
             </div>
@@ -165,9 +165,9 @@ export default function PublicJobsPage() {
             <p className="text-gray-600">
               Check back later for new opportunities!
             </p>
-          </div>
+          </section>
         )}
       </div>
-    </div>
+    </main>
   );
 }
