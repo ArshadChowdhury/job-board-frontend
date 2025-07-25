@@ -46,7 +46,7 @@ pnpm dev
 
 Then visit - http://localhost:3000/ to see the JobHub app !!
 
-For Production - 
+Live app in Production - https://job-board-frontend-pi.vercel.app/
 
 Deployment :
 Deployment is handled by Vercel.
