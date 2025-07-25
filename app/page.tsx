@@ -14,14 +14,14 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-100 to-red-200">
+    <div className="min-h-screen bg-gradient-to-br from-slate-300 to-slate-200">
       {/* Hero Section */}
       <NavBar />
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
             Find Your Dream Job
-            <span className="block text-red-600">Today</span>
+            <span className="block text-blue-900">Today</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Connect with top companies and discover opportunities that match
@@ -47,7 +47,7 @@ export default function HomePage() {
                   className="text-gray-900 w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:border-transparent placeholder-gray-600"
                 />
               </div>
-              <button className="cursor-pointer bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center">
+              <button className="cursor-pointer bg-slate-600 text-white px-8 py-3 rounded-lg hover:bg-slate-700 transition-colors flex items-center justify-center">
                 Search Jobs
                 <ArrowRight className="ml-2 h-5 w-5" />
               </button>
@@ -57,15 +57,15 @@ export default function HomePage() {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
             <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="text-3xl font-bold text-red-600 mb-2">50K+</div>
+              <div className="text-3xl font-bold text-slate-600 mb-2">50K+</div>
               <div className="text-gray-600">Active Jobs</div>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="text-3xl font-bold text-red-600 mb-2">200+</div>
+              <div className="text-3xl font-bold text-slate-600 mb-2">200+</div>
               <div className="text-gray-600">Companies</div>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="text-3xl font-bold text-red-600 mb-2">1M+</div>
+              <div className="text-3xl font-bold text-slate-600 mb-2">1M+</div>
               <div className="text-gray-600">Success Stories</div>
             </div>
           </div>
@@ -86,8 +86,8 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center p-8 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Search className="h-8 w-8 text-red-600" />
+              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Search className="h-8 w-8 text-slate-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 Smart Search
@@ -99,8 +99,8 @@ export default function HomePage() {
             </div>
 
             <div className="text-center p-8 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Users className="h-8 w-8 text-red-600" />
+              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Users className="h-8 w-8 text-slate-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 Top Companies
@@ -112,8 +112,8 @@ export default function HomePage() {
             </div>
 
             <div className="text-center p-8 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <TrendingUp className="h-8 w-8 text-red-600" />
+              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <TrendingUp className="h-8 w-8 text-slate-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 Career Growth
@@ -172,9 +172,9 @@ export default function HomePage() {
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">
                       {job.title}
                     </h3>
-                    <p className="text-red-600 font-medium">{job.company}</p>
+                    <p className="text-slate-600 font-medium">{job.company}</p>
                   </div>
-                  <Star className="h-5 w-5 text-gray-300 hover:text-red-500 cursor-pointer" />
+                  <Star className="h-5 w-5 text-gray-300 hover:text-slate-500 cursor-pointer" />
                 </div>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center text-gray-600">
@@ -190,7 +190,7 @@ export default function HomePage() {
                   <span className="text-lg font-semibold text-gray-900">
                     {job.salary}
                   </span>
-                  <button className="text-red-600 hover:text-red-700 font-medium">
+                  <button className="text-slate-600 hover:text-slate-700 font-medium cursor-pointer">
                     Apply Now
                   </button>
                 </div>
@@ -199,33 +199,36 @@ export default function HomePage() {
           </div>
 
           <div className="text-center mt-12">
-            <button className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors cursor-pointer">
+            <Link
+              href={"/jobs"}
+              className="bg-slate-600 text-white px-8 py-3 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
+            >
               View All Jobs
-            </button>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-red-600 to-red-700">
+      <section className="py-20 bg-gradient-to-r from-slate-600 to-slate-700">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Start Your Journey?
           </h2>
-          <p className="text-xl text-red-100 mb-8">
+          <p className="text-xl text-slate-100 mb-8">
             Join thousands of professionals who found their dream jobs through
             JobHub
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href={"#"}
-              className="bg-white text-red-600 px-8 py-[14px] rounded-lg hover:bg-gray-100 transition-colors font-semibold"
+              className="bg-white text-slate-600 px-8 py-[14px] rounded-lg hover:bg-gray-100 transition-colors font-semibold"
             >
               Create Account
             </Link>
             <Link
               href={"/jobs"}
-              className="border-2 border-white text-white px-8 py-3 rounded-lg hover:bg-white hover:text-red-600 transition-colors font-semibold"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg hover:bg-white hover:text-slate-600 transition-colors font-semibold"
             >
               Browse Jobs
             </Link>

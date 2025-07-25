@@ -8,6 +8,7 @@ import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
 const adminLoginSchema = z.object({
   username: z.string().refine((val) => val.length > 0, {
@@ -34,23 +35,11 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      {/* Subtle background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="absolute -top-40 -right-40 w-80 h-80 rounded-full filter blur-3xl opacity-5"
-          style={{ backgroundColor: "#d10000" }}
-        ></div>
-        <div
-          className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full filter blur-3xl opacity-5"
-          style={{ backgroundColor: "#d10000" }}
-        ></div>
-      </div>
-
       <div className="relative w-full max-w-md">
         {/* Logo and Admin badge */}
         <div className="flex flex-col items-center mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-gray-200 shadow-sm">
-            <Shield className="w-5 h-5" style={{ color: "#d10000" }} />
+            <Shield className="w-5 h-5 text-slate-600" />
             <span className="text-gray-700 font-medium">
               Job Board Admin Portal
             </span>
@@ -93,10 +82,22 @@ export default function AdminLoginPage() {
                   toast.success("Logged in Successfully");
                   router.push("/admin");
                 }
-              } catch (error) {
+              } catch (error: any) {
                 if (error instanceof z.ZodError) {
-                  // 3. Handle validation errors
                   console.error("Validation errors:", error);
+                  toast.error("Invalid input. Please check your credentials.");
+                } else if (axios.isAxiosError(error)) {
+                  if (error.response?.status === 401) {
+                    toast.error("Invalid credentials, Please try again.");
+                  } else if (error.response?.status === 400) {
+                    toast.error("Missing fields. Please check and try again.");
+                  } else {
+                    toast.error("Server error. Please try again later.");
+                  }
+                  console.error(
+                    "Login failed:",
+                    error.response?.data || error.message
+                  );
                 } else {
                   toast.error("Something went wrong, try again");
                   console.error("An unexpected error occurred:", error);
@@ -119,14 +120,12 @@ export default function AdminLoginPage() {
                   placeholder="Enter your username"
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                 />
-
-                {errors.username && (
-                  <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
-                    <span className="w-1 h-1 bg-red-600 rounded-full"></span>
-                    {errors.username.message}
-                  </p>
-                )}
               </div>
+              {errors.username && (
+                <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                  {errors.username.message}
+                </p>
+              )}
             </div>
 
             {/* Password field */}
@@ -142,13 +141,6 @@ export default function AdminLoginPage() {
                   placeholder="Enter your password"
                   className="w-full pl-10 pr-12 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                 />
-
-                {errors.password && (
-                  <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
-                    <span className="w-1 h-1 bg-red-600 rounded-full"></span>
-                    {errors.password.message}
-                  </p>
-                )}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -161,19 +153,20 @@ export default function AdminLoginPage() {
                   )}
                 </button>
               </div>
+              {errors.password && (
+                <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             {/* Submit button */}
             <button
-              // onClick={handleSubmit(handleFormSubmit)}
-
               type="submit"
               disabled={isLoading}
-              className={`flex items-center justify-center w-full text-white py-4 cursor-pointer rounded-md transition-all duration-300 ${
-                isLoading
-                  ? "bg-[#666]"
-                  : "bg-[linear-gradient(135deg,#d10000_0%,#a00000_50%,#800000_100%)]"
-              } hover:bg-[linear-gradient(135deg,#b50000_0%,#900000_50%,#700000_100%)]
+              className={`flex items-center justify-center w-full text-white py-4 cursor-pointer rounded-xl transition-all duration-300 ${
+                isLoading ? "bg-[#666]" : "bg-slate-600"
+              } hover:bg-slate-700
       '}
   `}
             >

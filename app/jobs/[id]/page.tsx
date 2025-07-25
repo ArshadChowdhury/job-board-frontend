@@ -77,7 +77,8 @@ export default function JobDetailsPage() {
               Job not found
             </h2>
             <p className="text-gray-600">
-              The job you&apos;re looking for doesn&apos;t exist or has been removed.
+              The job you&apos;re looking for doesn&apos;t exist or has been
+              removed.
             </p>
           </div>
         </div>
@@ -152,8 +153,7 @@ export default function JobDetailsPage() {
 
               <Link
                 href={`/jobs/${job.id}/apply`}
-                className="block w-full text-center px-6 py-3 text-white font-medium rounded-lg transition-colors duration-200 hover:opacity-90 mb-4"
-                style={{ backgroundColor: "#d10000" }}
+                className="block w-full text-center px-6 py-3 text-white font-medium rounded-lg transition-colors duration-200 hover:opacity-90 mb-4 bg-slate-600"
               >
                 Apply Now
               </Link>

@@ -84,12 +84,12 @@ export default function JobApplicationPage() {
     onSuccess: () => {
       setIsSubmitted(true);
       reset();
+      toast.success("Successfully applied to the job");
     },
   });
 
   const onSubmit = (data: ApplicationForm) => {
     mutation.mutate({ ...data, jobId });
-    toast.success("Successfully applied to the job");
   };
 
   if (jobLoading) {
@@ -150,13 +150,13 @@ export default function JobApplicationPage() {
               <div className="space-y-3">
                 <Link
                   href={`/jobs/${jobId}`}
-                  className="block w-full px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                  className="block w-full px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
                 >
                   Back to Job Details
                 </Link>
                 <Link
                   href="/jobs"
-                  className="block w-full px-6 py-3 text-white font-medium rounded-lg transition-colors hover:opacity-90 bg-[#d10000]"
+                  className="block w-full px-6 py-3 text-white font-medium rounded-lg transition-colors hover:opacity-90 bg-slate-600"
                 >
                   Browse More Jobs
                 </Link>
@@ -217,7 +217,6 @@ export default function JobApplicationPage() {
               </div>
               {errors.name && (
                 <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
-                  <span className="w-1 h-1 bg-red-600 rounded-full"></span>
                   {errors.name.message}
                 </p>
               )}
@@ -239,7 +238,6 @@ export default function JobApplicationPage() {
               </div>
               {errors.email && (
                 <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
-                  <span className="w-1 h-1 bg-red-600 rounded-full"></span>
                   {errors.email.message}
                 </p>
               )}
@@ -261,7 +259,6 @@ export default function JobApplicationPage() {
               </div>
               {errors.cvLink && (
                 <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
-                  <span className="w-1 h-1 bg-red-600 rounded-full"></span>
                   {errors.cvLink.message}
                 </p>
               )}
@@ -283,7 +280,6 @@ export default function JobApplicationPage() {
               />
               {errors.coverLetter && (
                 <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
-                  <span className="w-1 h-1 bg-red-600 rounded-full"></span>
                   {errors.coverLetter.message}
                 </p>
               )}
@@ -299,12 +295,14 @@ export default function JobApplicationPage() {
             )}
 
             {/* Submit Button */}
-            <button
+            {/* <button
               type="submit"
               disabled={mutation.isPending}
               className="cursor-pointer w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
               style={{
-                background: mutation.isPending ? "#666" : "#d10000",
+                background: mutation.isPending
+                  ? "#666"
+                  : "#oklch(44.6% 0.043 257.281)",
               }}
             >
               {mutation.isPending ? (
@@ -315,6 +313,41 @@ export default function JobApplicationPage() {
               ) : (
                 "Submit Application"
               )}
+            </button>
+            */}
+
+            <button
+              type="submit"
+              disabled={mutation.isPending}
+              className={`
+    cursor-pointer
+    w-full
+    py-3
+    px-4
+    text-white
+    font-semibold
+    rounded-xl
+    shadow-lg
+    hover:shadow-xl
+    transform
+    hover:-translate-y-0.5
+    disabled:transform-none
+    transition-all
+    duration-200
+    flex
+    items-center
+    justify-center
+    gap-2
+    disabled:opacity-50
+    ${
+      mutation.isPending
+        ? "bg-[#666]" // Gray when pending
+        : "bg-[oklch(44.6%_0.043_257.281)]" // Your specific OKLCH color when not pending
+    }
+  `}
+            >
+              {/* Button content goes here, e.g., "Submit" or a loading spinner */}
+              {mutation.isPending ? "Processing..." : "Submit"}
             </button>
           </form>
         </div>

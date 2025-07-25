@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center mb-4">
-              <Briefcase className="h-8 w-8 text-red-500" />
+              <Briefcase className="h-8 w-8 text-slate-500" />
               <span className="ml-2 text-xl font-bold">JobHub</span>
             </div>
             <p className="text-gray-400">

@@ -14,7 +14,7 @@ import {
   Users,
   Briefcase,
   Eye,
-  EyeClosed,
+  EyeOff,
   Trash2,
 } from "lucide-react";
 import axiosInstance from "@/lib/axios";
@@ -84,7 +84,11 @@ export default function AdminDashboard() {
     queryFn: fetchJobs,
   });
 
-  const { data: applications, isLoading: applicationsLoading } = useQuery({
+  const {
+    data: applications,
+    isLoading: applicationsLoading,
+    refetch: refetchApplications,
+  } = useQuery({
     queryKey: ["applications"],
     queryFn: fetchApplications,
   });
@@ -138,7 +142,7 @@ export default function AdminDashboard() {
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="bg-white rounded-lg p-6 shadow-sm border">
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-[#d10000]">
+                <div className="p-3 rounded-full bg-slate-600">
                   <Briefcase className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-4">
@@ -195,12 +199,15 @@ export default function AdminDashboard() {
                   onClick={() => setActiveTab("jobs")}
                   className={`cursor-pointer py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === "jobs"
-                      ? "border-red-500 text-red-600"
+                      ? "border-slate-500 text-slate-600"
                       : "border-transparent text-gray-500 hover:text-gray-700"
                   }`}
                   style={
                     activeTab === "jobs"
-                      ? { borderColor: "#d10000", color: "#d10000" }
+                      ? {
+                          borderColor: "#oklch(44.6% 0.043 257.281)",
+                          color: "#oklch(44.6% 0.043 257.281)",
+                        }
                       : {}
                   }
                 >
@@ -210,12 +217,15 @@ export default function AdminDashboard() {
                   onClick={() => setActiveTab("applications")}
                   className={`cursor-pointer py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === "applications"
-                      ? "border-red-500 text-red-600"
+                      ? "border-slate-500 text-slate-600"
                       : "border-transparent text-gray-500 hover:text-gray-700"
                   }`}
                   style={
                     activeTab === "applications"
-                      ? { borderColor: "#d10000", color: "#d10000" }
+                      ? {
+                          borderColor: "#oklch(44.6% 0.043 257.281)",
+                          color: "#oklch(44.6% 0.043 257.281)",
+                        }
                       : {}
                   }
                 >
@@ -225,12 +235,15 @@ export default function AdminDashboard() {
                   onClick={() => setActiveTab("create")}
                   className={`cursor-pointer py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
                     activeTab === "create"
-                      ? "border-red-500 text-red-600"
+                      ? "border-slate-500 text-slate-600"
                       : "border-transparent text-gray-500 hover:text-gray-700"
                   }`}
                   style={
                     activeTab === "create"
-                      ? { borderColor: "#d10000", color: "#d10000" }
+                      ? {
+                          borderColor: "#oklch(44.6% 0.043 257.281)",
+                          color: "#oklch(44.6% 0.043 257.281)",
+                        }
                       : {}
                   }
                 >
@@ -288,9 +301,9 @@ export default function AdminDashboard() {
                               </p>
                             </div>
                             <div className="flex gap-2 ml-4">
-                              <button className="p-2 text-gray-400 hover:text-gray-600">
+                              <button className="p-2 text-gray-400 hover:text-gray-600 cursor-pointer">
                                 {job.hidden ? (
-                                  <EyeClosed
+                                  <EyeOff
                                     onClick={async () => {
                                       const confirmed = window.confirm(
                                         "Are you sure you want to unhide this job ?"
@@ -376,6 +389,7 @@ export default function AdminDashboard() {
                                         "Successfully deleted the job"
                                       );
                                       refetchAdminJobs();
+                                      refetchApplications();
                                     }
 
                                     // optionally open a modal, redirect, or update UI
@@ -389,7 +403,7 @@ export default function AdminDashboard() {
                                     );
                                   }
                                 }}
-                                className="p-2 text-gray-400 hover:text-red-600"
+                                className="p-2 text-gray-400 hover:text-red-600 cursor-pointer"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -606,14 +620,14 @@ export default function AdminDashboard() {
                       </div>
                     )}
 
-                    <button
+                    {/* <button
                       type="submit"
                       disabled={createJobMutation.isPending}
                       className="cursor-pointer w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
                       style={{
                         background: createJobMutation.isPending
                           ? "#666"
-                          : "#d10000",
+                          : "#oklch(44.6% 0.043 257.281)",
                       }}
                     >
                       {createJobMutation.isPending ? (
@@ -627,6 +641,20 @@ export default function AdminDashboard() {
                           Create Job Posting
                         </>
                       )}
+                    </button> */}
+
+                    <button
+                      type="submit"
+                      disabled={createJobMutation.isPending}
+                      className={`cursor-pointer w-full py-3 px-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50  ${
+                        createJobMutation.isPending
+                          ? "bg-[#666]" // Gray when pending
+                          : "bg-[oklch(44.6%_0.043_257.281)]" // Your specific OKLCH color when not pending
+                      }
+  `}
+                    >
+                      {/* Button content goes here, e.g., "Submit" or a loading spinner */}
+                      {createJobMutation.isPending ? "Processing..." : "Submit"}
                     </button>
                   </form>
                 </div>
