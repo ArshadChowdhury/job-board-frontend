@@ -2,6 +2,11 @@
 
 This is the frontend of the JobHub application built with **Next.js** and **Tailwind CSS**. It interacts with a NestJS backend and is deployed via **Vercel CI/CD**.
 
+## Preview of the frontend app - 
+
+
+![Uploading image.png…]()
+
 ---
 
 ## 🧰 Tech Stack
